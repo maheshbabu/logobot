@@ -1,0 +1,31 @@
+.container {
+  min-width: 1000px;
+}
+
+.panel {
+  width: 300px;
+  float: left;
+  box-shadow: 1px 0px 11px rgba(76, 76, 76, 0.15);
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.panel-content {
+  padding: 30px;
+}
+
+.preview {
+  margin-left: 300px;
+  height: 100vh;
+  min-height: 300px;
+  position: relative;
+}
+
+.preview-result {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
