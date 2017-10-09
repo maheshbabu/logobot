@@ -29,3 +29,6 @@
   right: 0;
 }
 
+.logo-entity {
+  transition: transform 0.2s ease-in-out;
+}

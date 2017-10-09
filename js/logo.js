@@ -1,16 +1,32 @@
 var FONTS = [
-  // serif
-  'Merriweather',
-  // sans-serif
-  'Open Sans',
-  // cursive
-  'Pacifico',
-  'Permanent Marker',
-  'Berkshire Swash',
-  'Petit Formal Script',
-  'Fondamento',
-  // monospace
-  'Roboto Mono',
+  {
+    'name': 'Serif',
+    'fonts': [
+      'Merriweather',
+    ],
+  },
+  {
+    'name': 'Sans-serif',
+    'fonts': [
+      'Open Sans',
+    ]
+  },
+  {
+    'name': 'Cursive',
+    'fonts': [
+      'Pacifico',
+      'Permanent Marker',
+      'Berkshire Swash',
+      'Petit Formal Script',
+      'Fondamento',
+    ]
+  },
+  {
+    'name': 'Monospace',
+    'fonts': [
+      'Roboto Mono',
+    ]
+  }
 ]
 
 setFont = function(id, font) {
@@ -72,19 +88,17 @@ new Vue({
     setFont('title', this.title.font)
     setFont('subtitle', this.subtitle.font)
     calculateTransforms(this)
-    setTimeout(calculateTransforms.bind(null, this), 1000)
+    setTimeout(calculateTransforms.bind(null, this), 300)
   },
   updated: function() {
-    calculateTransforms(this)
+    setTimeout(calculateTransforms.bind(null, this), 300)
   },
   watch: {
     'title.font': function(newVal, oldVal) {
       setFont('title', newVal)
-      setTimeout(calculateTransforms.bind(null, this), 1000)
     },
     'subtitle.font': function(newVal, oldVal) {
       setFont('subtitle', newVal)
-      setTimeout(calculateTransforms.bind(null, this), 1000)
     }
   },
 })

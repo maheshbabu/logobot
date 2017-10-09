@@ -54,7 +54,9 @@
                             <label class="uk-form-label" for="">Font</label>
                             <div class="uk-form-controls">
                                 <select id="" class="uk-width-1-1" name="" v-model="title.font">
-                                    <option v-for="font in fonts">{{ font }}</option>
+                                    <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
+                                        <option v-for="font in fontgroup.fonts">{{ font }}</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
@@ -82,7 +84,9 @@
                             <label class="uk-form-label" for="">Font</label>
                             <div class="uk-form-controls">
                                 <select id="" class="uk-width-1-1" name="" v-model="subtitle.font">
-                                    <option v-for="font in fonts">{{ font }}</option>
+                                    <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
+                                        <option v-for="font in fontgroup.fonts">{{ font }}</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
