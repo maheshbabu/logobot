@@ -234,7 +234,6 @@
           var image = new Image()
           image.src = reader.result
           image.onload = function() {
-            console.log('onload')
             Vue.set($vm.logo, 'width', image.width)
             Vue.set($vm.logo, 'height', image.height)
           }
