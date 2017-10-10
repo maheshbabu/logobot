@@ -45,73 +45,78 @@
                             </select>
                         </div>
                     </div>
-
-                    <hr class="uk-article-divider">
-
-                    <h3>Name</h3>
-
                     <div class="uk-form-row">
-                        <label class="uk-form-label" for="">Font</label>
-                        <div class="uk-form-controls">
-                            <select id="" class="uk-width-1-1" name="" v-model="title.font">
-                                <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
-                                    <option v-for="font in fontgroup.fonts">{{ font }}</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="uk-form-row">
-                        <label for="">Size</label>
-                        <div class="uk-form-controls">
-                            <input type="range" v-model="title.size" min="8" max="120">
-                            <span class="uk-float-right">{{ title.size }}</span>
-                        </div>
-                    </div>
-                    <div class="uk-form-row">
-                        <div class="uk-form-controls">
-                            <input id="title-bold" type="checkbox" v-model="title.bold">
-                            <label for="title-bold">Bold</label>
-                            <input id="title-italic" type="checkbox" v-model="title.italic">
-                            <label for="title-italic">Italic</label>
-                        </div>
-                    </div>
-                    <div class="uk-form-row">
-                        <label for="">Color</label>
-                        <colorpicker :value="title.color" @input="function(c) { title.color = c.hex }"></colorpicker>
+                        <button class="uk-button uk-width-1-1" @click="advanced = !advanced">{{ !advanced ? 'show advanced' : 'hide advanced' }}</button>
                     </div>
 
-                    <hr class="uk-article-divider">
+                    <div v-show="advanced">
+                        <hr class="uk-article-divider">
 
-                    <h3>Label</h3>
+                        <h3>Name</h3>
 
-                    <div class="uk-form-row">
-                        <label class="uk-form-label" for="">Font</label>
-                        <div class="uk-form-controls">
-                            <select id="" class="uk-width-1-1" name="" v-model="subtitle.font">
-                                <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
-                                    <option v-for="font in fontgroup.fonts">{{ font }}</option>
-                                </optgroup>
-                            </select>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="">Font</label>
+                            <div class="uk-form-controls">
+                                <select id="" class="uk-width-1-1" name="" v-model="title.font">
+                                    <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
+                                        <option v-for="font in fontgroup.fonts">{{ font }}</option>
+                                    </optgroup>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="uk-form-row">
-                        <label for="">Size</label>
-                        <div class="uk-form-controls">
-                            <input type="range" v-model="subtitle.size" min="8" max="120">
-                            <span class="uk-float-right">{{ subtitle.size }}</span>
+                        <div class="uk-form-row">
+                            <label for="">Size</label>
+                            <div class="uk-form-controls">
+                                <input type="range" v-model="title.size" min="8" max="120">
+                                <span class="uk-float-right">{{ title.size }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="uk-form-row">
-                        <div class="uk-form-controls">
-                            <input id="subtitle-bold" type="checkbox" v-model="subtitle.bold">
-                            <label for="subtitle-bold">Bold</label>
-                            <input id="subtitle-italic" type="checkbox" v-model="subtitle.italic">
-                            <label for="subtitle-italic">Italic</label>
+                        <div class="uk-form-row">
+                            <div class="uk-form-controls">
+                                <input id="title-bold" type="checkbox" v-model="title.bold">
+                                <label for="title-bold">Bold</label>
+                                <input id="title-italic" type="checkbox" v-model="title.italic">
+                                <label for="title-italic">Italic</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="uk-form-row">
-                        <label for="">Color</label>
-                        <colorpicker :value="subtitle.color" @input="function(c) { subtitle.color = c.hex }"></colorpicker>
+                        <div class="uk-form-row">
+                            <label for="">Color</label>
+                            <colorpicker :value="title.color" @input="function(c) { title.color = c.hex }"></colorpicker>
+                        </div>
+
+                        <hr class="uk-article-divider">
+
+                        <h3>Label</h3>
+
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="">Font</label>
+                            <div class="uk-form-controls">
+                                <select id="" class="uk-width-1-1" name="" v-model="subtitle.font">
+                                    <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
+                                        <option v-for="font in fontgroup.fonts">{{ font }}</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label for="">Size</label>
+                            <div class="uk-form-controls">
+                                <input type="range" v-model="subtitle.size" min="8" max="120">
+                                <span class="uk-float-right">{{ subtitle.size }}</span>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <div class="uk-form-controls">
+                                <input id="subtitle-bold" type="checkbox" v-model="subtitle.bold">
+                                <label for="subtitle-bold">Bold</label>
+                                <input id="subtitle-italic" type="checkbox" v-model="subtitle.italic">
+                                <label for="subtitle-italic">Italic</label>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label for="">Color</label>
+                            <colorpicker :value="subtitle.color" @input="function(c) { subtitle.color = c.hex }"></colorpicker>
+                        </div>
                     </div>
                 </div>
             </div>

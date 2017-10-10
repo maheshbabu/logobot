@@ -85,6 +85,7 @@ new Vue({
       },
       fonts: FONTS,
       align: 'center',
+      advanced: false,
     }
   },
   mounted: function() {
