@@ -37,7 +37,7 @@
         },
         subtitle: {
           text: '',
-          font: '',
+          font: 'Open Sans',
           size: 15,
           color: '',
           bold: false,
@@ -45,6 +45,81 @@
         },
         align: 'center',
       }
+    },
+    simpsons: function() {
+      var partial = choice([{
+        title: {
+          text: 'SPRINGFIELD HISTORICAL SOCIETY',
+          font: 'PT Serif',
+        },
+        subtitle: {
+          text: 'WHERE THE DEAD COME ALIVE! (Metaphorically)',
+          font: 'PT Sans',
+          size: 21,
+        }
+      }, {
+        title: {
+          text: 'ANIMAL ASSISTANTS',
+          font: 'Roboto Condensed',
+          size: 50,
+          color: '#4551E2',
+          bold: true,
+        },
+        subtitle: {
+          text: '"AS FELT IN BRAILLE WEEKLY"',
+          font: 'Roboto',
+          size: 33,
+          italic: true,
+        }
+      }, {
+        title: {
+          text: 'PAY & PARK & PAY',
+          font: 'Roboto Condensed',
+          size: 60,
+          color: '#5E67DC',
+          bold: true,
+        }
+      }, {
+        title: {
+          text: 'SPRINGFIELD DOG TRACK',
+          font: 'Roboto Condensed',
+          size: 50,
+          bold: true,
+        },
+        subtitle: {
+          text: '"THINK OF THEM AS LITTLE HORSES"',
+          font: 'Roboto Condensed',
+          size: 35,
+        }
+      }, {
+        title: {
+          text: 'U.S. AIR FORCE BASE',
+          font: 'Roboto Condensed',
+          size: 50,
+          bold: true,
+          color: '#111111',
+        },
+        subtitle: {
+          text: 'NOT AFFILIATED WITH U.S. AIR',
+          font: 'Roboto Condensed',
+          size: 24,
+        }
+      }])
+
+      var result = {
+        title: {
+          text: '', font: 'Open Sans',
+          size: 32, color: '#666666', bold: false, italic: false
+        },
+        subtitle: {
+          text: '', font: 'Open Sans',
+          size: 16, color: '#666666', bold: false, italic: false
+        },
+        align: 'center',
+      }
+      Object.assign(result.title, partial.title)
+      Object.assign(result.subtitle, partial.subtitle)
+      return result
     },
   }
 

@@ -32,7 +32,9 @@
         'Oswald',
         'Philosopher',
         'Play',
+        'PT Sans',
         'Roboto',
+        'Roboto Condensed',
         'Rubik Mono One',
         'Rubik',
         'Russo One',
@@ -101,6 +103,7 @@
   };
 
   var setFont = function(id, font, callback) {
+    if (!font) { debugger }
     var link = document.createElement('link')
     link.id = 'font-' + id
     link.rel = 'stylesheet'
@@ -242,8 +245,8 @@
       },
       randomLogo: function() {
         var logo = bot.randomlogo()
-        this.title = logo.title
-        this.subtitle = logo.subtitle
+        Object.assign(this.title, logo.title)
+        Object.assign(this.subtitle, logo.subtitle)
         this.align = logo.align
       }
     }
