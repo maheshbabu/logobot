@@ -47,8 +47,14 @@ html, h1, h2, h3, h4, h5, h6 {
 
 
 /* colorpicker */
-.vc-compact {
+.vc-chrome {
   width: 100% !important;
   padding: 0 !important;
+  box-shadow: none !important;
+}
+.vc-chrome-body {
+  padding: 16px 0 !important;
+}
+.vc-input__input {
   box-shadow: none !important;
 }

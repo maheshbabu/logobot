@@ -156,7 +156,7 @@
   var $VM = new Vue({
     el: '#main',
     components: {
-      'colorpicker': VueColor.Compact
+      'colorpicker': VueColor.Chrome
     },
     data: function() {
       return {
@@ -164,7 +164,8 @@
           text: 'Alibaba',
           font: 'Berkshire Swash',
           size: 66,
-          color: '#F44E3B',
+          //color: '#F44E3B',
+          color: randcolor().primary,
           bold: true,
           italic: false,
         },
