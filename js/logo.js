@@ -62,13 +62,16 @@ var calculateTransforms = function($vm) {
 
 new Vue({
   el: '#main',
+  components: {
+    'colorpicker': VueColor.Compact
+  },
   data: function() {
     return {
       title: {
         text: 'Alibaba',
         font: 'Berkshire Swash',
         size: 66,
-        color: '#ec4343',
+        color: '#F44E3B',
         bold: true,
         italic: false,
       },
@@ -76,7 +79,7 @@ new Vue({
         text: 'We Sell Everything',
         font: 'Open Sans',
         size: 16,
-        color: '#444444',
+        color: '#666666',
         bold: false,
         italic: false
       },

@@ -35,3 +35,11 @@
 .logo-entity {
   transition: transform 0.2s ease-in-out;
 }
+
+
+/* colorpicker */
+.vc-compact {
+  width: 100% !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}

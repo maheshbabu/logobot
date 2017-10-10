@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="./vendor/vue.min.js"></script>
+    <script src="./vendor/vue-color.min.js"></script>
     <script src="./vendor/jquery.min.js"></script>
     <script src="./vendor/uikit.min.js"></script>
     <script src="./vendor/sprintf.min.js"></script>
@@ -74,6 +75,10 @@
                             <label for="title-italic">Italic</label>
                         </div>
                     </div>
+                    <div class="uk-form-row">
+                        <label for="">Color</label>
+                        <colorpicker :value="title.color" @input="function(c) { title.color = c.hex }"></colorpicker>
+                    </div>
 
                     <hr class="uk-article-divider">
 
@@ -103,6 +108,10 @@
                             <input id="subtitle-italic" type="checkbox" v-model="subtitle.italic">
                             <label for="subtitle-italic">Italic</label>
                         </div>
+                    </div>
+                    <div class="uk-form-row">
+                        <label for="">Color</label>
+                        <colorpicker :value="subtitle.color" @input="function(c) { subtitle.color = c.hex }"></colorpicker>
                     </div>
                 </div>
             </div>
