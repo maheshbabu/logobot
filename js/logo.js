@@ -83,6 +83,11 @@ new Vue({
         bold: false,
         italic: false
       },
+      logo: {
+        file: null,
+        image: null,
+        size: 50,
+      },
       fonts: FONTS,
       align: 'center',
       advanced: false,
@@ -105,4 +110,20 @@ new Vue({
       setFont('subtitle', newVal)
     }
   },
+  methods: {
+    onImageChange: function(e) {
+      var $vm = this
+      var files = e.target.files || e.dataTransfer.files
+
+      if (!files.length) return
+
+      this.logo.file = files[0]
+
+      var reader = new FileReader()
+      reader.addEventListener('load', function() {
+        $vm.logo.image = reader.result
+      })
+      reader.readAsDataURL(this.logo.file)
+    }
+  }
 })
