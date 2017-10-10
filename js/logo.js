@@ -1,3 +1,5 @@
+"use strict";
+
 var FONTS = [
   {
     'name': 'Serif',
@@ -64,7 +66,7 @@ var FONTS = [
   }
 ]
 
-setFont = function(id, font) {
+var setFont = function(id, font) {
   var link = '<link id="font-' + id + '" rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + font + '">'
   $('body')
     .find('#font-' + id).remove().end()
@@ -103,7 +105,7 @@ var calculateTransforms = function($vm) {
   $('#g-subtitle').attr('transform', 'translate(' + subtitleX + ', ' + subtitleY + ') scale(1)')
 }
 
-var x = new Vue({
+new Vue({
   el: '#main',
   components: {
     'colorpicker': VueColor.Compact
