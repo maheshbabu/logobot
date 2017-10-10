@@ -1,13 +1,16 @@
 .container {
-  min-width: 1000px;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
 }
 
 .panel {
+  position: absolute;
+  margin: 30px;
+  left: 0;
   width: 300px;
-  float: left;
-  box-shadow: 1px 0px 11px rgba(76, 76, 76, 0.15);
-  height: 100vh;
-  overflow-y: scroll;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
 }
 
 .panel-content {
@@ -15,17 +18,17 @@
 }
 
 .preview {
-  margin-left: 300px;
-  height: 100vh;
-  min-height: 300px;
-  position: relative;
+  position: fixed;
+  max-width: 1000px;
+  min-width: 670px;
+  margin-left: 330px;
+  height: 100%;
 }
 
 .preview-result {
-  position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: 300px;
   right: 0;
 }
 
