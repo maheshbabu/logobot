@@ -113,7 +113,7 @@
           calculateTransforms($VM)
         },
         error: function() {
-          console.log('failed to load font', name)
+          console.log('failed to load font', font)
         }})
     })
     $('body')
