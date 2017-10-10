@@ -239,6 +239,12 @@
           }
         })
         reader.readAsDataURL(this.logo.file)
+      },
+      randomLogo: function() {
+        var logo = bot.randomlogo()
+        this.title = logo.title
+        this.subtitle = logo.subtitle
+        this.align = logo.align
       }
     }
   })
