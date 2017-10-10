@@ -2,29 +2,64 @@ var FONTS = [
   {
     'name': 'Serif',
     'fonts': [
+      'Comfortaa',
+      'EB Garamond',
+      'Gabriela',
+      'Kelly Slab',
+      'Kurale',
+      'Lora',
       'Merriweather',
+      'Noto Serif',
+      'PT Serif',
+      'Playfair Display',
+      'Podkova',
+      'Poiret One',
+      'Roboto Slab',
+      'Vollkorn',
+      'Yeseva One',
     ],
   },
   {
-    'name': 'Sans-serif',
+    'name': 'Sans Serif',
     'fonts': [
+      'Fira Sans',
+      'Jura',
+      'Marmelad',
       'Open Sans',
+      'Oswald',
+      'Philosopher',
+      'Play',
+      'Roboto',
+      'Rubik Mono One',
+      'Rubik',
+      'Russo One',
+      'Source Sans Pro',
+      'Tenor Sans',
+      'Ubuntu',
+      'Yanone Kaffeesatz',
     ]
   },
   {
     'name': 'Cursive',
     'fonts': [
+      'Bad Script',
+      'Berkshire Swash',
+      'Fondamento',
+      'Neucha',
       'Pacifico',
       'Permanent Marker',
-      'Berkshire Swash',
       'Petit Formal Script',
-      'Fondamento',
     ]
   },
   {
     'name': 'Monospace',
     'fonts': [
+      'Anonymous Pro',
+      'Fira Mono',
+      'PT Mono',
+      'Press Start 2P',
       'Roboto Mono',
+      'Ubuntu Mono',
     ]
   }
 ]
@@ -105,7 +140,6 @@ var x = new Vue({
   },
   computed: {
     logoSize: function() {
-      console.log('logosize')
       var logo = this.logo
       var s = parseInt(logo.size)
       var w = logo.width
