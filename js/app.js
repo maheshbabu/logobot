@@ -164,7 +164,7 @@
     data: function() {
       return {
         title: {
-          text: 'Alibaba',
+          text: 'YourBrand',
           font: 'Berkshire Swash',
           size: 66,
           color: '#F44E3B',
@@ -172,7 +172,7 @@
           italic: false,
         },
         subtitle: {
-          text: 'We Sell Everything',
+          text: 'and slogan (maybe)',
           font: 'Open Sans',
           size: 16,
           color: '#666666',
