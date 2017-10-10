@@ -40,21 +40,16 @@ var calculateTransforms = function($vm) {
   var previewSize = $vm.$refs.preview.getBoundingClientRect()
   var titleSize = $vm.$refs.title.getBoundingClientRect()
   var subtitleSize = $vm.$refs.subtitle.getBoundingClientRect()
+  var logoSize = $vm.logoSize
+  var align = $vm.align
 
   var logoDistance = $vm.logo.file ? parseInt($vm.logo.distance) : 0
   var subtitleDistance = $vm.subtitle.text ? parseInt($vm.subtitle.distance) : 0
 
-  var align = $vm.align
-  var logoSize = {width: 0, height: 0}
-  if ($vm.logo.file) {
-    logoSize.width = parseInt($vm.logo.size)
-    logoSize.height = parseInt($vm.logo.size)
-  }
-
   if (align == 'left') {
     var maxWidth = Math.max(titleSize.width, subtitleSize.width) + logoSize.width
-    var logoX = (previewSize.width - maxWidth) / 2
-    var logoY = (previewSize.height - logoSize.height - logoDistance) / 2
+    var logoX = (previewSize.width - maxWidth - logoDistance) / 2
+    var logoY = (previewSize.height - logoSize.height) / 2
     var titleX = logoX + logoSize.width + logoDistance
     var titleY = (previewSize.height - titleSize.height - subtitleSize.height - subtitleDistance) / 2
     var subtitleX = titleX
@@ -73,7 +68,7 @@ var calculateTransforms = function($vm) {
   $('#g-subtitle').attr('transform', 'translate(' + subtitleX + ', ' + subtitleY + ') scale(1)')
 }
 
-new Vue({
+var x = new Vue({
   el: '#main',
   components: {
     'colorpicker': VueColor.Compact
@@ -108,6 +103,18 @@ new Vue({
       advanced: false,
     }
   },
+  computed: {
+    logoSize: function() {
+      console.log('logosize')
+      var logo = this.logo
+      var s = parseInt(logo.size)
+      var w = logo.width
+      var h = logo.height
+      if (!w || !h) return {width: 0, height: 0}
+      if (w / h > 1) return {width: s, height: h * (s / w)}
+      else return {width: w * (s / h), height: s}
+    }
+  },
   mounted: function() {
     setFont('title', this.title.font)
     setFont('subtitle', this.subtitle.font)
@@ -138,6 +145,13 @@ new Vue({
       var reader = new FileReader()
       reader.addEventListener('load', function() {
         $vm.logo.image = reader.result
+        var image = new Image()
+        image.src = reader.result
+        image.onload = function() {
+          console.log('onload')
+          Vue.set($vm.logo, 'width', image.width)
+          Vue.set($vm.logo, 'height', image.height)
+        }
       })
       reader.readAsDataURL(this.logo.file)
     }
