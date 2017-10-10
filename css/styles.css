@@ -58,3 +58,6 @@ html, h1, h2, h3, h4, h5, h6 {
 .vc-input__input {
   box-shadow: none !important;
 }
+.vc-chrome-color-wrap {
+  display: none;
+}
