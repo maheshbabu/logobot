@@ -101,8 +101,11 @@
   };
 
   var setFont = function(id, font, callback) {
-    var font = font.replace(/ /g, '+')
-    var $link = $('<link id="font-' + id + '" rel="stylesheet" href="https://fonts.googleapis.com/css?family=' + font + '">')
+    var link = document.createElement('link')
+    link.id = 'font-' + id
+    link.rel = 'stylesheet'
+    link.href = 'https://fonts.googleapis.com/css?family=' + font.replace(/ /g, '+')
+    var $link = $(link)
     $link.on('load', function() {
       FontFaceOnload(font, {
         success: function() {
