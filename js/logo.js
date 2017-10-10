@@ -42,20 +42,33 @@ var calculateTransforms = function($vm) {
   var subtitleSize = $vm.$refs.subtitle.getBoundingClientRect()
 
   var align = $vm.align
+  var logoSize = {width: 0, height: 0}
+  if ($vm.logo.file) {
+    logoSize.width = parseInt($vm.logo.size)
+    logoSize.height = parseInt($vm.logo.size)
+  }
 
   if (align == 'left') {
-    var maxWidth = Math.max(titleSize.width, subtitleSize.width)
-    var titleX = (previewSize.width - maxWidth) / 2
-    var titleY = previewSize.height / 2 - (titleSize.height + subtitleSize.height) / 2
+    var maxWidth = Math.max(titleSize.width, subtitleSize.width) + logoSize.width
+    var maxHeight = Math.max(titleSize.height + subtitleSize.height, logoSize.height)
+    var logoX = (previewSize.width - maxWidth) / 2
+    var logoY = (previewSize.height - logoSize.height) / 2
+    var titleX = logoX + logoSize.width
+    var titleY = (previewSize.height - titleSize.height - subtitleSize.height) / 2
     var subtitleX = titleX
     var subtitleY = titleY + titleSize.height
   } else if (align == 'center') {
+    var logoX = (previewSize.width - logoSize.width) / 2
+    var logoY = (previewSize.height - logoSize.height - titleSize.height - subtitleSize.height) / 2
     var titleX = (previewSize.width - titleSize.width) / 2
-    var titleY = previewSize.height / 2 - (titleSize.height + subtitleSize.height) / 2
+    var titleY = logoY + logoSize.height
     var subtitleX = (previewSize.width - subtitleSize.width) / 2
     var subtitleY = titleY + titleSize.height
   }
 
+  console.log('preview', previewSize, subtitleY, typeof subtitleY)
+
+  $('#g-logo').attr('transform', 'translate(' + logoX + ', ' + logoY + ') scale(1)')
   $('#g-title').attr('transform', 'translate(' + titleX + ', ' + titleY + ') scale(1)')
   $('#g-subtitle').attr('transform', 'translate(' + subtitleX + ', ' + subtitleY + ') scale(1)')
 }
@@ -98,6 +111,7 @@ new Vue({
     setFont('subtitle', this.subtitle.font)
     calculateTransforms(this)
     setTimeout(calculateTransforms.bind(null, this), 300)
+    $(window).on('resize', calculateTransforms.bind(null, this))
   },
   updated: function() {
     setTimeout(calculateTransforms.bind(null, this), 300)
