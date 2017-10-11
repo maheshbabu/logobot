@@ -9,11 +9,9 @@ html, h1, h2, h3, h4, h5, h6 {
 .container {
   max-width: 1000px;
   margin: 0 auto;
-  position: relative;
 }
 
 .panel {
-  position: absolute;
   margin: 30px;
   left: 0;
   width: 300px;
@@ -27,18 +25,18 @@ html, h1, h2, h3, h4, h5, h6 {
 
 .preview {
   position: fixed;
-  max-width: 1000px;
-  min-width: 670px;
-  margin-left: 330px;
+  width: 640px;
+  height: 100vh;
+  top: 0%;
+  left: 50%;
+  margin-left: -170px;
+}
+
+.preview svg {
+  width: 100%;
   height: 100%;
 }
 
-.preview-result {
-  top: 0;
-  bottom: 0;
-  left: 300px;
-  right: 0;
-}
 
 .logo-entity {
   opacity: 0;
