@@ -13,6 +13,39 @@
   }
 
   var themes = {
+    florist: function() {
+      return {
+        title: {
+          text: choice([
+            'Alice\'s', 'Fresh Cuts', 'Mary\'s', 'Lucy\'s Flowers', 'Bloom',
+            'flowerstory', 'dream seeds', 'Jenny\'s', 'Sara May', 'FLORALLY',
+            'Amanda\'s', 'Tulip', 'Pretty Pots', 'Iris', 'Bella Rosa',
+          ]),
+          font: choice([
+            'Bad Script', 'Petit Formal Script', 'Pacifico', 'Satisfy',
+            'Kaushan Script', 'Cookie', 'Great Vibes', 'Sacramento',
+          ]),
+          size: randint(50, 60),
+          // green/cyan/blue or purple/red
+          color: tinycolor({
+            h: choice([randint(120, 190), randint(280, 360)]),
+            s: rand(0.7, 0.99),
+            l: 0.5,
+          }),
+          bold: Math.random() > 0.5,
+          italic: false,
+        },
+        subtitle: {
+          text: '',
+          font: 'Open Sans',
+          size: 15,
+          color: '',
+          bold: false,
+          italic: false,
+        },
+        align: 'center',
+      }
+    },
     sports: function() {
       return {
         title: {
@@ -131,7 +164,12 @@
     },
     themes: themes,
     randomlogo: function() {
-      return themes[choice(Object.keys(themes))]()
+      // todo: change later
+      if (Math.random() <= 0.2) {
+        return themes.simpsons()
+      } else {
+        return themes[Math.random() >= 0.5 ? 'florist' : 'sports']()
+      }
     }
   }
 }.call(window))

@@ -49,11 +49,16 @@
       'fonts': [
         'Bad Script',
         'Berkshire Swash',
+        'Cookie',
         'Fondamento',
+        'Great Vibes',
+        'Kaushan Script',
         'Neucha',
         'Pacifico',
         'Permanent Marker',
         'Petit Formal Script',
+        'Sacramento',
+        'Satisfy',
       ]
     },
     {
