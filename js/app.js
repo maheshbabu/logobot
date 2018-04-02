@@ -157,10 +157,10 @@
     },
     watch: {
       'title.font': function(newVal, oldVal) {
-        setFont('title', newVal)
+        this.setFont('title', newVal)
       },
       'subtitle.font': function(newVal, oldVal) {
-        setFont('subtitle', newVal)
+        this.setFont('subtitle', newVal)
       }
     },
     methods: {
@@ -185,7 +185,7 @@
         var container = rect(this.$refs.preview.getBoundingClientRect())
         var title = rect(this.$refs.title.getBoundingClientRect())
         var subtitle = rect(this.$refs.subtitle.getBoundingClientRect())
-        var logo = rect(this.icon.content ? {width: this.icon.size, height: this.icon.size} : {width: 0, height: 0})
+        var logo = rect(this.icon.content ? {width: parseInt(this.icon.size), height: parseInt(this.icon.size)} : {width: 0, height: 0})
 
         var logoDistance = this.icon.content ? parseInt(this.icon.distance) : 0
         var subtitleDistance = this.subtitle.text ? parseInt(this.subtitle.distance) : 0
@@ -231,9 +231,8 @@
         this.icon.id = icon.id
         this.icon.original = icon.svg
         this.icon.content = icon.svg
-        console.log(this.icon, icon)
       },
-      setFont: function(id, font, callback) {
+      setFont: function(id, font) {
         var $vm = this
         var link = document.createElement('link')
         link.id = 'font-' + id
