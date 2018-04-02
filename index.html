@@ -34,9 +34,17 @@
                     </div>
                     <div class="my-sm">
                         <label>
-                            Logo
-                            <input type="file" ref="logo" accept="image/*" @change="onImageChange">
+                            Search Logo
+                            <input type="text" @keydown="searchLogo($event)" class="form-control">
                         </label>
+                        <div class="iconsets form-control" v-if="iconsets.length">
+                            <div class="icon"
+                                 v-for="i in iconsets"
+                                 v-html="i.svg"
+                                 :class="{'active': icon.id == i.id}"
+                                 @click="setIcon(i)"></div>
+                        </div>
+                        <i class="text-muted">powered by <a href="https://icons8.com/" target="_blank">icons8</a></i>
                     </div>
                     <div class="my-sm">
                         <label>Position</label>
@@ -141,8 +149,8 @@
                             <label>
                                 Logo size
                                 <div>
-                                    <input type="range" v-model="logo.size" min="16" max="200">
-                                    <span class="float-right">{{ logo.size }}</span>
+                                    <input type="range" v-model="icon.size" min="16" max="200">
+                                    <span class="float-right">{{ icon.size }}</span>
                                 </div>
                             </label>
                         </div>
@@ -150,8 +158,8 @@
                             <label>
                                 Logo Distance
                                 <div>
-                                    <input type="range" v-model="logo.distance" min="-20" max="40">
-                                    <span class="float-right">{{ logo.distance }}</span>
+                                    <input type="range" v-model="icon.distance" min="-20" max="40">
+                                    <span class="float-right">{{ icon.distance }}</span>
                                 </div>
                             </label>
                         </div>
@@ -170,8 +178,8 @@
         </div>
         <div class="preview" ref="preview">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" ref="svg">
-                <image id="g-logo" :xlink:href="logo.image" :width="logoSize.width + 'px'" :height="logoSize.height + 'px'" />
-                <g id="g-title" class="logo-entity" ref="title">
+                <g id="g-logo" v-html="icon.content" v-show="icon.content"></g>
+                <g id="g-title" class="logo-entity" ref="title" v-show="title.text">
                     <text dominant-baseline="text-before-edge"
                           alignment-baseline="text-before-edge"
                           :font-family="title.font"
@@ -180,7 +188,7 @@
                           :font-style="title.italic ? 'italic' : ''"
                           :fill="title.color">{{ title.text }}</text>
                 </g>
-                <g id="g-subtitle" class="logo-entity" ref="subtitle">
+                <g id="g-subtitle" class="logo-entity" ref="subtitle" v-show="subtitle.text">
                     <text dominant-baseline="text-before-edge"
                           alignment-baseline="text-before-edge"
                           :font-family="subtitle.font"

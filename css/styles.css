@@ -76,7 +76,7 @@ label {
   margin-left: -170px;
 }
 
-.preview svg {
+.preview > svg {
   width: 100%;
   height: 100%;
 }
@@ -208,6 +208,35 @@ label {
   padding-right: 30px; 
 }
 
+.iconsets {
+  display: flex;
+  margin-top: 10px;
+  flex-flow: row wrap;
+  max-height: 200px !important;
+  height: auto;
+  overflow-y: scroll;
+}
+
+.iconsets .icon {
+  width: 25%;
+  height: 60px;
+  padding: 8px;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.iconsets .icon:hover, .icon.active {
+  background: #f6f5ff;
+}
+
+.iconsets .icon svg {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
 .icon {
   width: 24px;
   height: auto;
@@ -222,6 +251,10 @@ label {
 
 .float-right {
   float: right;
+}
+
+.text-muted {
+  color: #808080;
 }
 
 /* colorpicker */

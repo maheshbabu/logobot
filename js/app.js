@@ -74,6 +74,39 @@
     }
   ]
 
+  // taken from Underscore.js 1.8.3
+  var debounce = function(func, wait, immediate) {
+    var timeout, args, context, timestamp, result;
+
+    var later = function() {
+      var last = Date.now() - timestamp;
+
+      if (last < wait && last >= 0) {
+        timeout = setTimeout(later, wait - last);
+      } else {
+        timeout = null;
+        if (!immediate) {
+          result = func.apply(context, args);
+          if (!timeout) context = args = null;
+        }
+      }
+    };
+
+    return function() {
+      context = this;
+      args = arguments;
+      timestamp = Date.now();
+      var callNow = immediate && !timeout;
+      if (!timeout) timeout = setTimeout(later, wait);
+      if (callNow) {
+        result = func.apply(context, args);
+        context = args = null;
+      }
+
+      return result;
+    };
+  };
+
   var $VM = new Vue({
     el: '#main',
     components: {
@@ -98,26 +131,16 @@
           italic: false,
           distance: 5,
         },
-        logo: {
-          file: null,
-          image: null,
+        icon: {
+          id: null,
+          content: null,
           size: 50,
           distance: 5,
         },
         align: 'left',
         fonts: FONTS,
         advanced: false,
-      }
-    },
-    computed: {
-      logoSize: function() {
-        var logo = this.logo
-        var s = parseInt(logo.size)
-        var w = logo.width
-        var h = logo.height
-        if (!w || !h) return {width: 0, height: 0}
-        if (w / h > 1) return {width: s, height: h * (s / w)}
-        else return {width: w * (s / h), height: s}
+        iconsets: [],
       }
     },
     mounted: function() {
@@ -141,26 +164,20 @@
       }
     },
     methods: {
-      onImageChange: function(e) {
+      searchLogo: debounce(function($event) {
+        var term = $event.target.value
         var $vm = this
-        var files = e.target.files || e.dataTransfer.files
 
-        if (!files.length) return
-
-        this.logo.file = files[0]
-
-        var reader = new FileReader()
-        reader.addEventListener('load', function() {
-          $vm.logo.image = reader.result
-          var image = new Image()
-          image.src = reader.result
-          image.onload = function() {
-            Vue.set($vm.logo, 'width', image.width)
-            Vue.set($vm.logo, 'height', image.height)
+        if (!term) {
+          this.iconsets = []
+          return
+        }
+        $.get('https://api.icons8.com/api/iconsets/v3/search?amount=20&term=' + term, function(data) {
+          if (data.success) {
+            $vm.iconsets = data.result.search
           }
         })
-        reader.readAsDataURL(this.logo.file)
-      },
+      }, 300),
       alignLogo: function() {
         var rect = function(rect) {
           return {x: 0, y: 0, w: rect.width, h: rect.height}
@@ -168,9 +185,9 @@
         var container = rect(this.$refs.preview.getBoundingClientRect())
         var title = rect(this.$refs.title.getBoundingClientRect())
         var subtitle = rect(this.$refs.subtitle.getBoundingClientRect())
-        var logo = rect(this.logoSize)
+        var logo = rect(this.icon.content ? {width: this.icon.size, height: this.icon.size} : {width: 0, height: 0})
 
-        var logoDistance = this.logo.file ? parseInt(this.logo.distance) : 0
+        var logoDistance = this.icon.content ? parseInt(this.icon.distance) : 0
         var subtitleDistance = this.subtitle.text ? parseInt(this.subtitle.distance) : 0
 
         if (this.align == 'left') {
@@ -206,33 +223,15 @@
         }
 
         $('#g-logo').attr('transform', 'translate(' + logo.x + ', ' + logo.y + ') scale(1)')
+        $('#g-logo svg').attr({width: logo.w + 'px', height: logo.h + 'px'})
         $('#g-title').attr('transform', 'translate(' + title.x + ', ' + title.y + ') scale(1)')
         $('#g-subtitle').attr('transform', 'translate(' + subtitle.x + ', ' + subtitle.y + ') scale(1)')
-        return
-        var logoSize = this.logoSize
-        var align = this.align
-
-
-        var title = {x: 0, y: 0, w: titleSize.width, h: titleSize.height}
-        var subtitle = {x: 0, y: 0}
-        var logo = {x: 0, y: 0}
-
-        if (align == 'left') {
-          var maxWidth = Math.max(titleSize.width, subtitleSize.width) + logoSize.width
-          var logoX = (previewSize.width - maxWidth - logoDistance) / 2
-          var logoY = (previewSize.height - logoSize.height) / 2
-          var titleX = logoX + logoSize.width + logoDistance
-          var titleY = (previewSize.height - titleSize.height - subtitleSize.height - subtitleDistance) / 2
-          var subtitleX = titleX
-          var subtitleY = titleY + titleSize.height + subtitleDistance
-        } else if (align == 'center') {
-          var logoX = (previewSize.width - logoSize.width) / 2
-          var logoY = (previewSize.height - logoSize.height - titleSize.height - subtitleSize.height - logoDistance - subtitleDistance) / 2
-          var titleX = (previewSize.width - titleSize.width) / 2
-          var titleY = logoY + logoSize.height + logoDistance
-          var subtitleX = (previewSize.width - subtitleSize.width) / 2
-          var subtitleY = titleY + titleSize.height + subtitleDistance
-        }
+      },
+      setIcon: function(icon) {
+        this.icon.id = icon.id
+        this.icon.original = icon.svg
+        this.icon.content = icon.svg
+        console.log(this.icon, icon)
       },
       setFont: function(id, font, callback) {
         var $vm = this
