@@ -116,14 +116,14 @@
       return {
         title: {
           text: 'YourBrand',
-          font: 'Berkshire Swash',
-          size: 66,
-          color: '#F44E3B',
+          font: 'Satisfy',
+          size: 38,
+          color: '#4688c8',
           bold: true,
           italic: false,
         },
         subtitle: {
-          text: 'and slogan (maybe)',
+          text: '',
           font: 'Open Sans',
           size: 16,
           color: '#666666',
@@ -200,7 +200,7 @@
           subtitle.y = title.y + title.h + subtitleDistance
         } else if (this.align == 'right') {
           var mW = Math.max(title.w, subtitle.w) + logo.w
-          logo.x = (container.w * 2 - mW) / 2
+          logo.x = (container.w + mW) / 2 - logo.w
           logo.y = (container.h - logo.h) / 2
           title.x = logo.x - logoDistance - title.w
           title.y = subtitle.y = (container.h - title.h - subtitle.h - subtitleDistance) / 2
