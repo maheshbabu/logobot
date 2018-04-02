@@ -6,146 +6,152 @@
     <script src="./vendor/vue.min.js"></script>
     <script src="./vendor/vue-color.min.js"></script>
     <script src="./vendor/jquery.min.js"></script>
-    <script src="./vendor/uikit.min.js"></script>
     <script src="./vendor/fontfaceonload.js"></script>
     <script src="./vendor/tinycolor-min.js"></script>
-    <link rel="stylesheet" href="./vendor/uikit.min.css">
-    <link rel="stylesheet" href="./vendor/uikit.gradient.min.css">
+    <script src="./vendor/canvg.min.js"></script>
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
     <div class="container" id="main" v-cloak>
         <div class="panel">
             <div class="panel-content">
-                <div class="uk-container-center uk-width-1-2 uk-margin-large-bottom">
+                <header class="panel-header">
                     <img src="./img/sleep-robot.svg" alt="" @click="randomLogo" style="cursor: pointer">
-                    <div class="uk-text-center">logobot</div>
-                </div>
-                <div class="uk-form">
-                    <div class="uk-form-row">
-                        <label class="uk-form-label">Name</label>
-                        <div class="uk-form-controls">
-                            <input type="text" v-model="title.text" class="uk-width-1-1">
-                        </div>
+                    <div>logobot</div>
+                </header>
+                <div>
+                    <div class="my-sm">
+                        <label>
+                            Name
+                            <input type="text" v-model="title.text" class="form-control">
+                        </label>
                     </div>
-                    <div class="uk-form-row">
-                        <label class="uk-form-label">Label (optional)</label>
-                        <div class="uk-form-controls">
-                            <input type="text" v-model="subtitle.text" class="uk-width-1-1">
-                        </div>
+                    <div class="my-sm">
+                        <label>
+                            Label (optional)
+                            <input type="text" v-model="subtitle.text" class="form-control">
+                        </label>
                     </div>
-                    <div class="uk-form-row">
-                        <label class="uk-form-label" for="">Logo (optional)</label>
-                        <div class="uk-form-controls">
+                    <div class="my-sm">
+                        <label>
+                            Logo (optional)
                             <input type="file" ref="logo" accept="image/*" @change="onImageChange">
-                        </div>
-                    </div>
-                    <div class="uk-form-row">
-                        <label class="uk-form-label" for="">Align</label>
-                        <div class="uk-form-controls">
-                            <select id="" class="uk-width-1-1" name="" v-model="align">
-                                <option>left</option>
-                                <option>center</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="uk-form-row">
-                        <button class="uk-button uk-width-1-1" @click="advanced = !advanced">{{ !advanced ? 'show advanced' : 'hide advanced' }}</button>
+                        </label>
                     </div>
 
+                    <div class="button-groups my-sm">
+                        <button class="button" :class="{'active': align == 'left'}" @click="align = 'left'">left</button>
+                        <button class="button" :class="{'active': align == 'center'}" @click="align = 'center'">center</button>
+                    </div>
+
+                    <a class="button button--primary my-sm" download="logo.png" href="" ref="download" @mouseover="render">download</a>
+                    <button class="button button--link" @click="advanced = !advanced">{{ !advanced ? 'show advanced' : 'hide advanced' }}</button>
+
                     <div v-show="advanced">
-                        <hr class="uk-article-divider">
+                        <hr>
 
                         <h3>Name</h3>
 
-                        <div class="uk-form-row">
-                            <label class="uk-form-label" for="">Font</label>
-                            <div class="uk-form-controls">
-                                <select id="" class="uk-width-1-1" name="" v-model="title.font">
+                        <div class="my-sm">
+                            <label>
+                                Font
+                                <select class="form-control" v-model="title.font">
                                     <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
                                         <option v-for="font in fontgroup.fonts">{{ font }}</option>
                                     </optgroup>
                                 </select>
-                            </div>
+                            </label>
                         </div>
-                        <div class="uk-form-row">
-                            <label for="">Size</label>
-                            <div class="uk-form-controls">
-                                <input type="range" v-model="title.size" min="8" max="120">
-                                <span class="uk-float-right">{{ title.size }}</span>
-                            </div>
+                        <div class="my-sm">
+                            <label>
+                                Size
+                                <div>
+                                    <input type="range" v-model="title.size" min="8" max="120">
+                                    <span class="float-right">{{ title.size }}</span>
+                                </div>
+                            </label>
                         </div>
-                        <div class="uk-form-row">
-                            <div class="uk-form-controls">
-                                <input id="title-bold" type="checkbox" v-model="title.bold">
-                                <label for="title-bold">Bold</label>
+                        <div class="my-sm">
+                            <label>
+                                <input type="checkbox" v-model="title.bold">
+                                Bold
+                            </label>
+                            <label>
                                 <input id="title-italic" type="checkbox" v-model="title.italic">
-                                <label for="title-italic">Italic</label>
-                            </div>
+                                Italic
+                            </label>
                         </div>
-                        <div class="uk-form-row">
-                            <label for="">Color</label>
-                            <colorpicker :value="title.color" @input="function(c) { title.color = c.hex }"></colorpicker>
+                        <div class="my-sm">
+                            <label>
+                                Color
+                                <colorpicker :value="title.color" @input="function(c) { title.color = c.hex }"></colorpicker>
+                            </label>
                         </div>
-
-                        <hr class="uk-article-divider">
-
+                        <hr>
                         <h3>Label</h3>
-
-                        <div class="uk-form-row">
-                            <label class="uk-form-label" for="">Font</label>
-                            <div class="uk-form-controls">
-                                <select id="" class="uk-width-1-1" name="" v-model="subtitle.font">
+                        <div class="my-sm">
+                            <label>
+                                Font
+                                <select class="form-control" name="" v-model="subtitle.font">
                                     <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
                                         <option v-for="font in fontgroup.fonts">{{ font }}</option>
                                     </optgroup>
                                 </select>
-                            </div>
+                            </label>
                         </div>
-                        <div class="uk-form-row">
-                            <label for="">Size</label>
-                            <div class="uk-form-controls">
-                                <input type="range" v-model="subtitle.size" min="8" max="120">
-                                <span class="uk-float-right">{{ subtitle.size }}</span>
-                            </div>
+                        <div class="my-sm">
+                            <label>
+                                Size
+                                <div>
+                                    <input type="range" v-model="subtitle.size" min="8" max="120">
+                                    <span class="float-right">{{ subtitle.size }}</span>
+                                </div>
+                            </label>
                         </div>
-                        <div class="uk-form-row">
-                            <div class="uk-form-controls">
+                        <div class="my-sm">
+                            <label>
                                 <input id="subtitle-bold" type="checkbox" v-model="subtitle.bold">
-                                <label for="subtitle-bold">Bold</label>
+                                Bold
+                            </label>
+                            <label>
                                 <input id="subtitle-italic" type="checkbox" v-model="subtitle.italic">
-                                <label for="subtitle-italic">Italic</label>
-                            </div>
+                                Italic
+                            </label>
                         </div>
-                        <div class="uk-form-row">
-                            <label for="">Color</label>
-                            <colorpicker :value="subtitle.color" @input="function(c) { subtitle.color = c.hex }"></colorpicker>
+                        <div class="my-sm">
+                            <label>
+                                Color
+                                <colorpicker :value="subtitle.color" @input="function(c) { subtitle.color = c.hex }"></colorpicker>
+                            </label>
                         </div>
-
-
-                        <hr class="uk-article-divider">
+                        <hr>
                         <h3>Customization</h3>
-
-                        <div class="uk-form-row">
-                            <label for="">Logo size</label>
-                            <div class="uk-form-controls">
-                                <input type="range" v-model="logo.size" min="16" max="200">
-                                <span class="uk-float-right">{{ logo.size }}</span>
-                            </div>
+                        <div class="my-sm">
+                            <label>
+                                Logo size
+                                <div>
+                                    <input type="range" v-model="logo.size" min="16" max="200">
+                                    <span class="float-right">{{ logo.size }}</span>
+                                </div>
+                            </label>
                         </div>
-                        <div class="uk-form-row">
-                            <label for="">Logo Distance</label>
-                            <div class="uk-form-controls">
-                                <input type="range" v-model="logo.distance" min="-20" max="40">
-                                <span class="uk-float-right">{{ logo.distance }}</span>
-                            </div>
+                        <div class="my-sm">
+                            <label>
+                                Logo Distance
+                                <div>
+                                    <input type="range" v-model="logo.distance" min="-20" max="40">
+                                    <span class="float-right">{{ logo.distance }}</span>
+                                </div>
+                            </label>
                         </div>
-                        <div class="uk-form-row">
-                            <label for="">Label Distance</label>
-                            <div class="uk-form-controls">
-                                <input type="range" v-model="subtitle.distance" min="-20" max="40">
-                                <span class="uk-float-right">{{ subtitle.distance }}</span>
-                            </div>
+                        <div class="my-sm">
+                            <label>
+                                Label Distance
+                                <div>
+                                    <input type="range" v-model="subtitle.distance" min="-20" max="40">
+                                    <span class="float-right">{{ subtitle.distance }}</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -175,7 +181,6 @@
             </svg>
         </div>
     </div>
-    <script src="./js/bot.js"></script>
     <script src="./js/app.js"></script>
 </body>
 </html>
