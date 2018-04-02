@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-html, h1, h2, h3, h4, h5, h6 {
+html {
   font-family: -apple-system, SFUIText, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -84,7 +84,6 @@ label {
 
 .logo-entity {
   opacity: 0;
-  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
 .button {

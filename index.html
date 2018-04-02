@@ -38,12 +38,13 @@
                             <input type="file" ref="logo" accept="image/*" @change="onImageChange">
                         </label>
                     </div>
-
-                    <div class="button-groups my-sm">
-                        <button class="button" :class="{'active': align == 'left'}" @click="align = 'left'">left</button>
-                        <button class="button" :class="{'active': align == 'center'}" @click="align = 'center'">center</button>
+                    <div class="my-sm">
+                        <label>Position</label>
+                        <div class="button-groups">
+                            <button class="button" :class="{'active': align == 'left'}" @click="align = 'left'">left</button>
+                            <button class="button" :class="{'active': align == 'center'}" @click="align = 'center'">center</button>
+                        </div>
                     </div>
-
                     <a class="button button--primary my-sm" download="logo.png" href="" ref="download" @mouseover="render">download</a>
                     <button class="button button--link" @click="advanced = !advanced">{{ !advanced ? 'show advanced' : 'hide advanced' }}</button>
 

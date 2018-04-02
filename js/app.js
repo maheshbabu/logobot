@@ -108,7 +108,6 @@
   };
 
   var setFont = function(id, font, callback) {
-    if (!font) { debugger }
     var link = document.createElement('link')
     link.id = 'font-' + id
     link.rel = 'stylesheet'
@@ -129,7 +128,7 @@
       .append($link)
   }
 
-  var calculateTransforms = debounce(function($vm) {
+  var calculateTransforms = function($vm) {
     var previewSize = $vm.$refs.preview.getBoundingClientRect()
     var titleSize = $vm.$refs.title.getBoundingClientRect()
     var subtitleSize = $vm.$refs.subtitle.getBoundingClientRect()
@@ -159,7 +158,7 @@
     $('#g-logo').attr('transform', 'translate(' + logoX + ', ' + logoY + ') scale(1)')
     $('#g-title').attr('transform', 'translate(' + titleX + ', ' + titleY + ') scale(1)')
     $('#g-subtitle').attr('transform', 'translate(' + subtitleX + ', ' + subtitleY + ') scale(1)')
-  }, 100)
+  }
 
   var $VM = new Vue({
     el: '#main',
@@ -217,7 +216,7 @@
       $(window).on('resize', calculateTransforms.bind(null, this))
     },
     updated: function() {
-      setTimeout(calculateTransforms.bind(null, this), 300)
+      calculateTransforms(this)
     },
     watch: {
       'title.font': function(newVal, oldVal) {
