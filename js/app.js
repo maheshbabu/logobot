@@ -74,92 +74,6 @@
     }
   ]
 
-  // taken from Underscore.js 1.8.3
-  var debounce = function(func, wait, immediate) {
-    var timeout, args, context, timestamp, result;
-
-    var later = function() {
-      var last = Date.now() - timestamp;
-
-      if (last < wait && last >= 0) {
-        timeout = setTimeout(later, wait - last);
-      } else {
-        timeout = null;
-        if (!immediate) {
-          result = func.apply(context, args);
-          if (!timeout) context = args = null;
-        }
-      }
-    };
-
-    return function() {
-      context = this;
-      args = arguments;
-      timestamp = Date.now();
-      var callNow = immediate && !timeout;
-      if (!timeout) timeout = setTimeout(later, wait);
-      if (callNow) {
-        result = func.apply(context, args);
-        context = args = null;
-      }
-
-      return result;
-    };
-  };
-
-  var setFont = function(id, font, callback) {
-    var link = document.createElement('link')
-    link.id = 'font-' + id
-    link.rel = 'stylesheet'
-    link.href = 'https://fonts.googleapis.com/css?family=' + font.replace(/ /g, '+')
-    var $link = $(link)
-    $link.on('load', function() {
-      FontFaceOnload(font, {
-        success: function() {
-          if (callback) callback()
-          calculateTransforms($VM)
-        },
-        error: function() {
-          console.log('failed to load font', font)
-        }})
-    })
-    $('body')
-      .find('#font-' + id).remove().end()
-      .append($link)
-  }
-
-  var calculateTransforms = function($vm) {
-    var previewSize = $vm.$refs.preview.getBoundingClientRect()
-    var titleSize = $vm.$refs.title.getBoundingClientRect()
-    var subtitleSize = $vm.$refs.subtitle.getBoundingClientRect()
-    var logoSize = $vm.logoSize
-    var align = $vm.align
-
-    var logoDistance = $vm.logo.file ? parseInt($vm.logo.distance) : 0
-    var subtitleDistance = $vm.subtitle.text ? parseInt($vm.subtitle.distance) : 0
-
-    if (align == 'left') {
-      var maxWidth = Math.max(titleSize.width, subtitleSize.width) + logoSize.width
-      var logoX = (previewSize.width - maxWidth - logoDistance) / 2
-      var logoY = (previewSize.height - logoSize.height) / 2
-      var titleX = logoX + logoSize.width + logoDistance
-      var titleY = (previewSize.height - titleSize.height - subtitleSize.height - subtitleDistance) / 2
-      var subtitleX = titleX
-      var subtitleY = titleY + titleSize.height + subtitleDistance
-    } else if (align == 'center') {
-      var logoX = (previewSize.width - logoSize.width) / 2
-      var logoY = (previewSize.height - logoSize.height - titleSize.height - subtitleSize.height - logoDistance - subtitleDistance) / 2
-      var titleX = (previewSize.width - titleSize.width) / 2
-      var titleY = logoY + logoSize.height + logoDistance
-      var subtitleX = (previewSize.width - subtitleSize.width) / 2
-      var subtitleY = titleY + titleSize.height + subtitleDistance
-    }
-
-    $('#g-logo').attr('transform', 'translate(' + logoX + ', ' + logoY + ') scale(1)')
-    $('#g-title').attr('transform', 'translate(' + titleX + ', ' + titleY + ') scale(1)')
-    $('#g-subtitle').attr('transform', 'translate(' + subtitleX + ', ' + subtitleY + ') scale(1)')
-  }
-
   var $VM = new Vue({
     el: '#main',
     components: {
@@ -190,7 +104,7 @@
           size: 50,
           distance: 5,
         },
-        align: 'center',
+        align: 'left',
         fonts: FONTS,
         advanced: false,
       }
@@ -208,15 +122,15 @@
     },
     mounted: function() {
       var $vm = this
-      setFont('title', $vm.title.font, debounce(function() {
-        setFont('subtitle', $vm.subtitle.font, debounce(function() {
+      $vm.setFont('title', $vm.title.font, function() {
+        $vm.setFont('subtitle', $vm.subtitle.font, function() {
           $('.logo-entity').css({opacity: 1})
-        }, 200))
-      }, 200))
-      $(window).on('resize', calculateTransforms.bind(null, this))
+        })
+      })
+      $(window).on('resize', function() { $vm.alignLogo() })
     },
     updated: function() {
-      calculateTransforms(this)
+      this.alignLogo()
     },
     watch: {
       'title.font': function(newVal, oldVal) {
@@ -247,11 +161,98 @@
         })
         reader.readAsDataURL(this.logo.file)
       },
-      randomLogo: function() {
-        var logo = bot.randomlogo()
-        Object.assign(this.title, logo.title)
-        Object.assign(this.subtitle, logo.subtitle)
-        this.align = logo.align
+      alignLogo: function() {
+        var rect = function(rect) {
+          return {x: 0, y: 0, w: rect.width, h: rect.height}
+        }
+        var container = rect(this.$refs.preview.getBoundingClientRect())
+        var title = rect(this.$refs.title.getBoundingClientRect())
+        var subtitle = rect(this.$refs.subtitle.getBoundingClientRect())
+        var logo = rect(this.logoSize)
+
+        var logoDistance = this.logo.file ? parseInt(this.logo.distance) : 0
+        var subtitleDistance = this.subtitle.text ? parseInt(this.subtitle.distance) : 0
+
+        if (this.align == 'left') {
+          var mW = Math.max(title.w, subtitle.w) + logo.w
+          logo.x = (container.w - mW - logoDistance) / 2
+          logo.y = (container.h - logo.h) / 2
+          title.x = subtitle.x = logo.x + logo.w + logoDistance
+          title.y = subtitle.y = (container.h - title.h - subtitle.h - subtitleDistance) / 2
+          subtitle.x = title.x
+          subtitle.y = title.y + title.h + subtitleDistance
+        } else if (this.align == 'right') {
+          var mW = Math.max(title.w, subtitle.w) + logo.w
+          logo.x = (container.w * 2 - mW) / 2
+          logo.y = (container.h - logo.h) / 2
+          title.x = logo.x - logoDistance - title.w
+          title.y = subtitle.y = (container.h - title.h - subtitle.h - subtitleDistance) / 2
+          subtitle.x = logo.x - logoDistance - subtitle.w
+          subtitle.y = title.y + title.h + subtitleDistance
+        } else if (this.align == 'top') {
+          logo.x = (container.w - logo.w) / 2
+          logo.y = (container.h - logo.h - title.h - subtitle.h - logoDistance - subtitleDistance) / 2
+          title.x = (container.w - title.w) / 2
+          title.y = logo.y + logo.h + logoDistance
+          subtitle.x = (container.w - subtitle.w) / 2
+          subtitle.y = title.y + title.h + subtitleDistance
+        } else if (this.align == 'bottom') {
+          title.x = (container.w - title.w) / 2
+          title.y = (container.h - logo.h - title.h - subtitle.h - logoDistance - subtitleDistance) / 2
+          subtitle.x = (container.w - subtitle.w) / 2
+          subtitle.y = title.y + title.h + subtitleDistance
+          logo.x = (container.w - logo.w) / 2
+          logo.y = subtitle.y + subtitle.h + logoDistance
+        }
+
+        $('#g-logo').attr('transform', 'translate(' + logo.x + ', ' + logo.y + ') scale(1)')
+        $('#g-title').attr('transform', 'translate(' + title.x + ', ' + title.y + ') scale(1)')
+        $('#g-subtitle').attr('transform', 'translate(' + subtitle.x + ', ' + subtitle.y + ') scale(1)')
+        return
+        var logoSize = this.logoSize
+        var align = this.align
+
+
+        var title = {x: 0, y: 0, w: titleSize.width, h: titleSize.height}
+        var subtitle = {x: 0, y: 0}
+        var logo = {x: 0, y: 0}
+
+        if (align == 'left') {
+          var maxWidth = Math.max(titleSize.width, subtitleSize.width) + logoSize.width
+          var logoX = (previewSize.width - maxWidth - logoDistance) / 2
+          var logoY = (previewSize.height - logoSize.height) / 2
+          var titleX = logoX + logoSize.width + logoDistance
+          var titleY = (previewSize.height - titleSize.height - subtitleSize.height - subtitleDistance) / 2
+          var subtitleX = titleX
+          var subtitleY = titleY + titleSize.height + subtitleDistance
+        } else if (align == 'center') {
+          var logoX = (previewSize.width - logoSize.width) / 2
+          var logoY = (previewSize.height - logoSize.height - titleSize.height - subtitleSize.height - logoDistance - subtitleDistance) / 2
+          var titleX = (previewSize.width - titleSize.width) / 2
+          var titleY = logoY + logoSize.height + logoDistance
+          var subtitleX = (previewSize.width - subtitleSize.width) / 2
+          var subtitleY = titleY + titleSize.height + subtitleDistance
+        }
+      },
+      setFont: function(id, font, callback) {
+        var $vm = this
+        var link = document.createElement('link')
+        link.id = 'font-' + id
+        link.rel = 'stylesheet'
+        link.href = 'https://fonts.googleapis.com/css?family=' + font.replace(/ /g, '+')
+        var $link = $(link)
+        $link.on('load', function() {
+          FontFaceOnload(font, {
+            success: function() {
+              $vm.alignLogo()
+            },
+            error: function() {
+              console.log('failed to load font', font)
+            }})
+        })
+        $('body')
+          .find('#font-' + id).remove().end()
+          .append($link)
       },
       render: function() {
         var svg = this.$refs.preview.innerHTML
