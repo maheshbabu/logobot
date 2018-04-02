@@ -91,7 +91,7 @@ label {
   width: 100%;
   min-height: 40px;
   margin: 0;
-  padding: 0 20px;
+  padding: 0 10px;
   font-size: 14px;
   font-weight: 600;
   line-height: 40px;
@@ -211,6 +211,12 @@ label {
   color: #808080;
   opacity: 1;
   padding-right: 30px; 
+}
+
+.icon {
+  width: 24px;
+  height: auto;
+  vertical-align: middle;
 }
 
 /* utils */

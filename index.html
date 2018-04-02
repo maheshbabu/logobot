@@ -28,21 +28,31 @@
                     </div>
                     <div class="my-sm">
                         <label>
-                            Label (optional)
+                            Tagline
                             <input type="text" v-model="subtitle.text" class="form-control">
                         </label>
                     </div>
                     <div class="my-sm">
                         <label>
-                            Logo (optional)
+                            Logo
                             <input type="file" ref="logo" accept="image/*" @change="onImageChange">
                         </label>
                     </div>
                     <div class="my-sm">
                         <label>Position</label>
                         <div class="button-groups">
-                            <button class="button" :class="{'active': align == 'left'}" @click="align = 'left'">left</button>
-                            <button class="button" :class="{'active': align == 'center'}" @click="align = 'center'">center</button>
+                            <button class="button" :class="{'active': align == 'left'}" @click="align = 'left'">
+                                <img src="./img/align-left.svg" alt="align left" class="icon">
+                            </button>
+                            <button class="button" :class="{'active': align == 'top'}" @click="align = 'top'">
+                                <img src="./img/align-top.svg" alt="align top" class="icon">
+                            </button>
+                            <button class="button" :class="{'active': align == 'right'}" @click="align = 'right'">
+                                <img src="./img/align-right.svg" alt="align right" class="icon">
+                            </button>
+                            <button class="button" :class="{'active': align == 'bottom'}" @click="align = 'bottom'">
+                                <img src="./img/align-bottom.svg" alt="align bottom" class="icon">
+                            </button>
                         </div>
                     </div>
                     <a class="button button--primary my-sm" download="logo.png" href="" ref="download" @mouseover="render">download</a>
