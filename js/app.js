@@ -253,6 +253,17 @@
         Object.assign(this.title, logo.title)
         Object.assign(this.subtitle, logo.subtitle)
         this.align = logo.align
+      },
+      render: function() {
+        var svg = this.$refs.preview.innerHTML
+        var canvas = document.createElement('canvas')
+        var ctx = canvas.getContext('2d')
+
+        canvas.width = 500
+        canvas.height = 500
+        ctx.drawSvg(svg, 0, 0, 500, 500)
+        var png = canvas.toDataURL()
+        this.$refs.download.href = png
       }
     }
   })
