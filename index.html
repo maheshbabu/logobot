@@ -9,6 +9,8 @@
     <script src="./vendor/fontfaceonload.js"></script>
     <script src="./vendor/tinycolor-min.js"></script>
     <script src="./vendor/canvg.min.js"></script>
+    <script src="./vendor/rangeslider.min.js"></script>
+    <link rel="stylesheet" href="./vendor/rangeslider.css">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
@@ -64,14 +66,10 @@
                             </button>
                         </div>
                     </div>
-                    <a class="button button--primary my-sm" download="logo.png" href="" ref="download" @mouseover="render">download</a>
-                    <button class="button button--link" @click="advanced = !advanced">{{ !advanced ? 'show advanced' : 'hide advanced' }}</button>
 
                     <div v-show="advanced">
                         <hr>
-
                         <h3>Name</h3>
-
                         <div class="my-sm">
                             <label>
                                 Font
@@ -85,9 +83,9 @@
                         <div class="my-sm">
                             <label>
                                 Size
+                                <span class="float-right">{{ title.size }}</span>
                                 <div>
-                                    <input type="range" v-model="title.size" min="8" max="120">
-                                    <span class="float-right">{{ title.size }}</span>
+                                    <slider v-model="title.size" min="8" max="120" />
                                 </div>
                             </label>
                         </div>
@@ -108,7 +106,7 @@
                             </label>
                         </div>
                         <hr>
-                        <h3>Label</h3>
+                        <h3>Tagline</h3>
                         <div class="my-sm">
                             <label>
                                 Font
@@ -122,9 +120,9 @@
                         <div class="my-sm">
                             <label>
                                 Size
+                                <span class="float-right">{{ subtitle.size }}</span>
                                 <div>
-                                    <input type="range" v-model="subtitle.size" min="8" max="120">
-                                    <span class="float-right">{{ subtitle.size }}</span>
+                                    <slider v-model="subtitle.size" min="8" max="120" />
                                 </div>
                             </label>
                         </div>
@@ -148,32 +146,34 @@
                         <h3>Customization</h3>
                         <div class="my-sm">
                             <label>
-                                Logo size
+                                Icon size
+                                <span class="float-right">{{ icon.size }}</span>
                                 <div>
-                                    <input type="range" v-model="icon.size" min="16" max="200">
-                                    <span class="float-right">{{ icon.size }}</span>
+                                    <slider v-model="icon.size" min="16" max="200" />
                                 </div>
                             </label>
                         </div>
                         <div class="my-sm">
                             <label>
-                                Logo Distance
+                                Icon Distance
+                                <span class="float-right">{{ icon.distance }}</span>
                                 <div>
-                                    <input type="range" v-model="icon.distance" min="-20" max="40">
-                                    <span class="float-right">{{ icon.distance }}</span>
+                                    <slider v-model="icon.distance" min="-20" max="40" />
                                 </div>
                             </label>
                         </div>
                         <div class="my-sm">
                             <label>
-                                Label Distance
+                                Tagline Distance
+                                <span class="float-right">{{ subtitle.distance }}</span>
                                 <div>
-                                    <input type="range" v-model="subtitle.distance" min="-20" max="40">
-                                    <span class="float-right">{{ subtitle.distance }}</span>
+                                    <slider v-model="subtitle.distance" min="-20" max="40" />
                                 </div>
                             </label>
                         </div>
                     </div>
+                    <button class="button button--link my-sm" @click="advanced = !advanced">{{ !advanced ? 'show advanced' : 'hide advanced' }}</button>
+                    <a class="button button--primary" download="logo.png" href="" ref="download" @mouseover="render">download</a>
                 </div>
             </div>
         </div>

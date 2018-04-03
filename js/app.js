@@ -107,10 +107,22 @@
     };
   };
 
-  var $VM = new Vue({
+  new Vue({
     el: '#main',
     components: {
-      'colorpicker': VueColor.Chrome
+      'colorpicker': VueColor.Chrome,
+      'slider': {
+        template: '<input type="range">',
+        mounted: function() {
+          var $vm = this
+          $(this.$el).rangeslider({
+            polyfill: false,
+            onSlide: function(position, value) {
+              $vm.$emit('input', value)
+            }
+          })
+        }
+      }
     },
     data: function() {
       return {
