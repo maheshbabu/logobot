@@ -36,7 +36,7 @@
                     </div>
                     <div class="my-sm">
                         <label>
-                            Search Icon
+                            Search Icons
                             <input type="text" @keydown="searchIcons($event)" class="form-control">
                         </label>
                         <p v-if="iconSearchStatus">{{ iconSearchStatus }}</p>
@@ -146,7 +146,7 @@
                         <h3>Customization</h3>
                         <div class="my-sm">
                             <label>
-                                Icon size
+                                Icon Size
                                 <span class="float-right">{{ icon.size }}</span>
                                 <div>
                                     <slider v-model="icon.size" min="16" max="200" />
