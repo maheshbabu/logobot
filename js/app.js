@@ -254,12 +254,34 @@
       },
       render: function() {
         var svg = this.$refs.preview.innerHTML
+        var container = this.$refs.preview.getBoundingClientRect()
         var canvas = document.createElement('canvas')
-        var ctx = canvas.getContext('2d')
 
-        canvas.width = 500
-        canvas.height = 500
-        ctx.drawSvg(svg, 0, 0, 500, 500)
+        var sizes = []
+        var $els = [$('#g-logo'), $('#g-title'), $('#g-subtitle')]
+        for (var i = 0; i < $els.length; i++) {
+          if ($els[i].css('display') !== 'none') {
+            var rect = $els[i][0].getBoundingClientRect()
+            sizes.push({
+              left: rect.left - container.left,
+              top: rect.top - container.top,
+              right: rect.right - container.left,
+              bottom: rect.bottom - container.top,
+            })
+          }
+        }
+
+        var dx = Math.min.apply(null, (sizes.map(function(s) { return s.left })))
+        var dy = Math.min.apply(null, (sizes.map(function(s) { return s.top })))
+        var dw = Math.max.apply(null, (sizes.map(function(s) { return s.right }))) - dx
+        var dh = Math.max.apply(null, (sizes.map(function(s) { return s.bottom }))) - dy
+
+        var offset = 2
+        canvas.width = dw + offset * 2
+        canvas.height = dh + offset + 2
+
+        var ctx = canvas.getContext('2d')
+        ctx.drawSvg(svg, -dx + offset, -dy + offset, dw, dh)
         var png = canvas.toDataURL()
         this.$refs.download.href = png
       }
