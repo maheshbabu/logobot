@@ -172,9 +172,17 @@
           this.iconsets = []
           return
         }
-        $.get('https://api.icons8.com/api/iconsets/v3/search?amount=20&term=' + term, function(data) {
-          if (data.success) {
-            $vm.iconsets = data.result.search
+        $.get('https://api.icons8.com/api/iconsets/search?amount=60&term=' + term, function(data, status, xhr) {
+          if (status == 'success') {
+            var iconsets = Array.from(data.querySelectorAll('icon'))
+              .map(function(n) {
+                var attributes = n.attributes
+                return {
+                  id: n.attributes['id'].value,
+                  svg: atob(n.querySelector('svg').innerHTML)
+                }
+              })
+            $vm.iconsets = iconsets
           }
         })
       }, 300),
@@ -229,7 +237,6 @@
       },
       setIcon: function(icon) {
         this.icon.id = icon.id
-        this.icon.original = icon.svg
         this.icon.content = icon.svg
       },
       setFont: function(id, font) {
