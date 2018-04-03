@@ -141,6 +141,7 @@
         fonts: FONTS,
         advanced: false,
         iconsets: [],
+        iconSearchStatus: '',
       }
     },
     mounted: function() {
@@ -164,27 +165,35 @@
       }
     },
     methods: {
-      searchLogo: debounce(function($event) {
+      searchIcons: debounce(function($event) {
         var term = $event.target.value
         var $vm = this
 
         if (!term) {
           this.iconsets = []
+          $vm.iconSearchStatus = ''
           return
         }
-        $.get('https://api.icons8.com/api/iconsets/search?amount=60&term=' + term, function(data, status, xhr) {
-          if (status == 'success') {
-            var iconsets = Array.from(data.querySelectorAll('icon'))
-              .map(function(n) {
-                var attributes = n.attributes
-                return {
-                  id: n.attributes['id'].value,
-                  svg: atob(n.querySelector('svg').innerHTML)
-                }
-              })
-            $vm.iconsets = iconsets
-          }
-        })
+
+        $vm.iconSearchStatus = 'searching icons'
+
+        $.get('https://api.icons8.com/api/iconsets/search?amount=60&term=' + term)
+          .then(function(data, status, xhr) {
+            if (status == 'success') {
+              var iconsets = Array.from(data.querySelectorAll('icon'))
+                .map(function(n) {
+                  var attributes = n.attributes
+                  return {
+                    id: n.attributes['id'].value,
+                    svg: atob(n.querySelector('svg').innerHTML)
+                  }
+                })
+              $vm.iconsets = iconsets
+              $vm.iconSearchStatus = iconsets.length ? '' : 'couldn\'t find icons matching query'
+            } else {
+              $vm.iconSearchStatus = 'error'
+            }
+          })
       }, 300),
       alignLogo: function() {
         var rect = function(rect) {

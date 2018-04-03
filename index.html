@@ -34,10 +34,11 @@
                     </div>
                     <div class="my-sm">
                         <label>
-                            Search Logo
-                            <input type="text" @keydown="searchLogo($event)" class="form-control">
+                            Search Icon
+                            <input type="text" @keydown="searchIcons($event)" class="form-control">
                         </label>
-                        <div class="iconsets form-control" v-if="iconsets.length">
+                        <p v-if="iconSearchStatus">{{ iconSearchStatus }}</p>
+                        <div class="iconsets form-control" v-if="iconsets.length" v-if="!iconSearchStatus">
                             <div class="icon"
                                  v-for="i in iconsets"
                                  v-html="i.svg"
