@@ -112,15 +112,27 @@
     components: {
       'colorpicker': VueColor.Chrome,
       'slider': {
-        template: '<input type="range">',
+        template: '<input type="range" :disabled="$props.disabled">',
+        props: ['disabled'],
         mounted: function() {
           var $vm = this
-          $(this.$el).rangeslider({
-            polyfill: false,
-            onSlide: function(position, value) {
-              $vm.$emit('input', value)
-            }
-          })
+          this.$slider = $(this.$el)
+            .rangeslider({
+              polyfill: false,
+              onSlide: function(position, value) {
+                $vm.$emit('input', value)
+              }
+            })
+        },
+        watch: {
+          '$props': {
+            handler: function() {
+              this.$nextTick(function() {
+                this.$slider.rangeslider('update', false, false)
+              })
+            },
+            deep: true,
+          }
         }
       }
     },

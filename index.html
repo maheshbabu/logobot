@@ -102,7 +102,7 @@
                         <div class="my-sm">
                             <label>
                                 Color
-                                <colorpicker :value="title.color" @input="function(c) { title.color = c.hex }"></colorpicker>
+                                <colorpicker :value="title.color" @input="function(c) { title.color = c.hex }" />
                             </label>
                         </div>
                         <hr>
@@ -110,7 +110,7 @@
                         <div class="my-sm">
                             <label>
                                 Font
-                                <select class="form-control" name="" v-model="subtitle.font">
+                                <select class="form-control" name="" v-model="subtitle.font" :disabled="!subtitle.text">
                                     <optgroup v-for="fontgroup in fonts" :label="fontgroup.name">
                                         <option v-for="font in fontgroup.fonts">{{ font }}</option>
                                     </optgroup>
@@ -122,24 +122,24 @@
                                 Size
                                 <span class="float-right">{{ subtitle.size }}</span>
                                 <div>
-                                    <slider v-model="subtitle.size" min="8" max="120" />
+                                    <slider v-model="subtitle.size" min="8" max="120" :disabled="!subtitle.text" />
                                 </div>
                             </label>
                         </div>
                         <div class="my-sm">
                             <label>
-                                <input id="subtitle-bold" type="checkbox" v-model="subtitle.bold">
+                                <input id="subtitle-bold" type="checkbox" v-model="subtitle.bold" :disabled="!subtitle.text">
                                 Bold
                             </label>
                             <label>
-                                <input id="subtitle-italic" type="checkbox" v-model="subtitle.italic">
+                                <input id="subtitle-italic" type="checkbox" v-model="subtitle.italic" :disabled="!subtitle.text">
                                 Italic
                             </label>
                         </div>
                         <div class="my-sm">
                             <label>
                                 Color
-                                <colorpicker :value="subtitle.color" @input="function(c) { subtitle.color = c.hex }"></colorpicker>
+                                <colorpicker :value="subtitle.color" @input="function(c) { subtitle.color = c.hex }" />
                             </label>
                         </div>
                         <hr>
@@ -149,7 +149,7 @@
                                 Icon Size
                                 <span class="float-right">{{ icon.size }}</span>
                                 <div>
-                                    <slider v-model="icon.size" min="16" max="200" />
+                                    <slider v-model="icon.size" min="16" max="200" :disabled="!icon.content" />
                                 </div>
                             </label>
                         </div>
@@ -158,7 +158,7 @@
                                 Icon Distance
                                 <span class="float-right">{{ icon.distance }}</span>
                                 <div>
-                                    <slider v-model="icon.distance" min="-20" max="40" />
+                                    <slider v-model="icon.distance" min="-20" max="40" :disabled="!icon.content" />
                                 </div>
                             </label>
                         </div>
@@ -167,7 +167,7 @@
                                 Tagline Distance
                                 <span class="float-right">{{ subtitle.distance }}</span>
                                 <div>
-                                    <slider v-model="subtitle.distance" min="-20" max="40" />
+                                    <slider v-model="subtitle.distance" min="-20" max="40" :disabled="!subtitle.text" />
                                 </div>
                             </label>
                         </div>
