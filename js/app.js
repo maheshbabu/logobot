@@ -284,7 +284,7 @@
           FontFaceOnload(font, {
             success: function() {
               $vm.alignLogo()
-              callback.apply($vm)
+              if (callback) callback.apply($vm)
             },
             error: function() {
               console.log('failed to load font', font)
