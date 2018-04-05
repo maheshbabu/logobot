@@ -16,7 +16,7 @@ html {
 }
 
 body {
-  color: #222222;
+  color: #444444;
   background-color: #f5f5f7;
   padding-top: 30px;
   padding-bottom: 30px;
@@ -58,9 +58,19 @@ label {
   margin-bottom: 40px;
 }
 
-.panel-header img {
+.panel-header h1 {
+  margin: 0;
+}
+
+.panel-header .icon-bot {
   width: 120px;
   height: auto;
+}
+
+.panel-header .icon-b12 {
+  height: 1rem;
+  width: auto;
+  margin-bottom: -1px;
 }
 
 .panel-content {
