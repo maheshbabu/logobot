@@ -170,9 +170,9 @@
       }
     },
     mounted: function() {
-      var $vm = this
-      $vm.setFont('title', $vm.title.font, function() {
-        $vm.setFont('subtitle', $vm.subtitle.font, function() {
+      $('.logo-entity').css({opacity: 0})
+      this.setFont('title', this.title.font, function() {
+        this.setFont('subtitle', this.subtitle.font, function() {
           $('.logo-entity').css({opacity: 1})
         })
       })
@@ -273,7 +273,7 @@
         this.icon.id = icon.id
         this.icon.content = icon.svg
       },
-      setFont: function(id, font) {
+      setFont: function(id, font, callback) {
         var $vm = this
         var link = document.createElement('link')
         link.id = 'font-' + id
@@ -284,6 +284,7 @@
           FontFaceOnload(font, {
             success: function() {
               $vm.alignLogo()
+              callback.apply($vm)
             },
             error: function() {
               console.log('failed to load font', font)
