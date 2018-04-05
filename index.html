@@ -37,10 +37,11 @@
                     <div class="my-sm">
                         <label>
                             Search Icons
+                            <a class="float-right text-muted" v-if="icon.content" @click="setIcon({})">reset</a>
                             <input type="text" @keydown="searchIcons($event)" class="form-control">
                         </label>
                         <p v-if="iconSearchStatus">{{ iconSearchStatus }}</p>
-                        <div class="iconsets form-control" v-if="iconsets.length" v-if="!iconSearchStatus">
+                        <div class="iconsets form-control" v-if="iconsets.length">
                             <div class="icon"
                                  v-for="i in iconsets"
                                  v-html="i.svg"
