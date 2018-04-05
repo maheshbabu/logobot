@@ -176,7 +176,7 @@
           $('.logo-entity').css({opacity: 1})
         })
       })
-      $(window).on('resize', function() { $vm.alignLogo() })
+      $(window).on('resize', function() { this.alignLogo() }.bind(this))
     },
     updated: function() {
       this.alignLogo()
